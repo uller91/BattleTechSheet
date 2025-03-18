@@ -1,27 +1,73 @@
 from window import Line, Point
 from tkinter import ttk
 
+
 class Mech():
-    def __init__(self, interface, coordinates):
-        self._w = interface
+    def __init__(self, interface, coordinates, stat, child, fill_color = "white", outline_color = "green"):
+        self._i = interface
         self._x = coordinates.x
         self._y = coordinates.y
-        self.center_torso = True
-        #print("prepared")
-        
-        self.draw_center_torso("green")
+        self._stat = stat
+        self._damage = 0
+        self._destroyed = False
+        self._polygon = None
+        self._fill = fill_color
+        self._outline = outline_color
+        self._child = child
 
-    def draw_center_torso(self, fill_color):
-        self.size_x = 200
-        self.size_y = 200
-        offset = f"#{self.size_x},{self.size_y}"
+        self.draw()
+
+    def draw(self):
+        pass
+
+    def damage(self, damage):
+        self._damage += damage
+        damage_spill = 0
+        if self._damage < self._stat:
+            self._i._canvas.itemconfig(self._polygon, fill="white", outline="green", width = 3)
+        else:
+            self._destroyed = True
+            self._i._canvas.itemconfig(self._polygon, fill="red", outline="black", width = 1)
+            damage_spill = self._damage - self._stat
+            self._damage -= damage_spill
+            if self._child != None:
+                self._child.damage(damage_spill)
+        
+        self._i._canvas.itemconfig(self._text, text=f"{self._damage}\n/\n{self._stat}")
+
+
+class Center_Torso(Mech):
+    def __init__(self, interface, coordinates, stat, child):
+        super().__init__(interface, coordinates, stat, child)
+
+    def draw(self):
         coordinates = [0,0, 100,0, 100,200, 0,200]
         used_coordinates = []
         for i in range(len(coordinates)):
             if i%2 == 0:
-                used_coordinates.append(coordinates[i] + self.size_x)
+                used_coordinates.append(coordinates[i] + self._x)
             else:
-                used_coordinates.append(coordinates[i] + self.size_y)
-        self._rect = self._w._canvas.create_polygon(used_coordinates, fill="white", outline=fill_color, width = 3)
-        self._text = self._w._canvas.create_text(250,300, anchor="center", justify="center", text=f"{self._w.variable}\n/\n20")
+                used_coordinates.append(coordinates[i] + self._y)
+        #print(used_coordinates)
+        center_x = (used_coordinates[0] + used_coordinates[2])/2
+        center_y = (used_coordinates[3] + used_coordinates[5])/2
+        self._polygon = self._i._canvas.create_polygon(used_coordinates, fill=self._fill, outline=self._outline, width = 3)
+        self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}") #coordinates?
 
+class Inner_Center_Torso(Center_Torso):
+    def __init__(self, interface, coordinates, stat, child = None):
+        super().__init__(interface, coordinates, stat, child)
+
+    def draw(self):
+        coordinates = [0,0, 100,0, 100,200, 0,200]
+        used_coordinates = []
+        for i in range(len(coordinates)):
+            if i%2 == 0:
+                used_coordinates.append(coordinates[i] + self._x)
+            else:
+                used_coordinates.append(coordinates[i] + self._y)
+        #print(used_coordinates)
+        center_x = (used_coordinates[0] + used_coordinates[2])/2
+        center_y = (used_coordinates[3] + used_coordinates[5])/2
+        self._polygon = self._i._canvas.create_polygon(used_coordinates, fill=self._fill, outline=self._outline, width = 3)
+        self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}") #coordinates?
