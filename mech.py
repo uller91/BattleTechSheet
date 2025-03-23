@@ -1,4 +1,3 @@
-from window import Line, Point
 from tkinter import ttk
 
 
@@ -7,7 +6,7 @@ class Mech():
         self._i = interface
         self._x = coordinates.x
         self._y = coordinates.y
-        self._stat = stat
+        self._stat = int(stat)
         self._damage = 0
         self._destroyed = False
         self._polygon = None
@@ -30,7 +29,9 @@ class Mech():
             self._i._canvas.itemconfig(self._polygon, fill="red", outline="black", width = 1)
             damage_spill = self._damage - self._stat
             self._damage -= damage_spill
-            if self._child != None:
+            if self._child == None:
+                print("Mech is destroyed!")
+            elif self._child != None:
                 self._child.damage(damage_spill)
         
         self._i._canvas.itemconfig(self._text, text=f"{self._damage}\n/\n{self._stat}")
@@ -41,7 +42,7 @@ class Center_Torso(Mech):
         super().__init__(interface, coordinates, stat, child)
 
     def draw(self):
-        coordinates = [0,0, 100,0, 100,200, 0,200]
+        coordinates = [0,0, 40,0, 40,80, 0,80]
         used_coordinates = []
         for i in range(len(coordinates)):
             if i%2 == 0:
@@ -59,7 +60,7 @@ class Inner_Center_Torso(Center_Torso):
         super().__init__(interface, coordinates, stat, child)
 
     def draw(self):
-        coordinates = [0,0, 100,0, 100,200, 0,200]
+        coordinates = [0,0, 40,0, 40,80, 0,80]
         used_coordinates = []
         for i in range(len(coordinates)):
             if i%2 == 0:
