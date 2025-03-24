@@ -2,14 +2,14 @@ from tkinter import Tk, Canvas, StringVar
 from tkinter import ttk
 
 from read_data import read_mech_list, read_mech_data
-from mech import Center_Torso, Inner_Center_Torso
+from mech import initialize_mech
 
 
 class Interface():
     def __init__(self, win):
         self._w = win
         self._root = win._root
-        self._mech = None
+        self._mech = []
         self._mech_list = read_mech_list()
         self._mech_data = []
 
@@ -54,10 +54,10 @@ class Interface():
 
 
     def do_stuff(self):
-        self._mech.damage(5)
+        self._mech["CT"].damage(5)
 
     def do_bad_stuff(self):
-        self._mech.damage(20)
+        self._mech["CT"].damage(20)
 
 
     def choose_mech_variant(self):
@@ -67,7 +67,7 @@ class Interface():
         self._button_2["state"] = "enabled"
         self._list_model["state"] = "readonly"
 
-        self._list_model["values"] = self._mech_list[self._list_variant.get()]
+        self._list_model["values"] = list(self._mech_list[self._list_variant.get()].keys())
         self._list_model.current(0)
 
 
@@ -77,19 +77,18 @@ class Interface():
         self._button_2.place_forget()
         self._list_model.place_forget()
 
-        self._mech_data = read_mech_data(self._list_variant.get(), self._list_model.get())
+        self._mech_data = read_mech_data(self._mech_list[self._list_variant.get()][self._list_model.get()], self._list_variant.get(), self._list_model.get())
 
         self.initiate_the_rest_of_the_grid()
         self._frame["height"] = 100
-        self._mech_label["text"] = self._mech_data[0] + " - " + self._mech_data[1]
-        self.initialize_the_mech() #continue here
+        self._mech_label["text"] = self._mech_data["Variant"] + " - " + self._mech_data["Model"]
+        self.initialize_the_mech()
 
 
     def initialize_the_mech(self):
-        i_c_t = Inner_Center_Torso(self, Point(100,350), self._mech_data[22])
-        c_t = Center_Torso(self, Point(100,100), self._mech_data[11], i_c_t)
+        self._mech = initialize_mech(self, self._mech_data)
     
-        self._mech = c_t
+        
 
 
 class Window():
@@ -106,7 +105,7 @@ class Window():
     def draw_line(self, line, fill_color):
         line.draw(self._canvas, fill_color)
 
-
+#things below may be not needed
 class Point():
     def __init__(self, x = 0, y = 0):
         self.x = x

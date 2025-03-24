@@ -1,2 +1,2 @@
-Variant, Model, Tonnage, BV, Ar_Head, Ar_LA, Ar_RA, Ar_LL, Ar_RL, Ar_LT, Ar_RT, Ar_CT, Ar_BLT, Ar_BRT, Ar_BCT, Int_Head, Int_LA, Int_RA, Int_LL, Int_RL, Int__LT, Int_RT, Int_CT
-Catapult, CPLT-C1, 65, 1399, 9, 13, 13, 18, 18, 19, 19, 24, 8, 11, 8, 3, 10, 10, 15, 15, 15, 15, 21
+N; Variant; Model; Tonnage; BV; Heat Sink; Speed; Armor; Internal
+1; Catapult; CPLT-C1; 65; 1399; 15; {'W':4,'R':4,'J':4}; {'H':9, 'A':13, 'L':18, 'T':19, 'C':24, 'BT':8, 'BC':11}; {'H':3, 'A':10, 'L':15, 'T':15, 'C':21}

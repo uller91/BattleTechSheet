@@ -1,9 +1,10 @@
 import os.path
 import os
+import ast
+
 
 def read_mech_list():   
     # reading the file with the explicit file path
-    # (!!!) possible improvement - write the number of the line into the dict to improve the reading from the file in the read_mech_data function
     mechs_dict = {}
     
     file_path = os.path.join("data", "mech_list.csv")
@@ -13,40 +14,38 @@ def read_mech_list():
     for i in range(len(content)):
         if i == 0:
             continue #skiping the first line
-        line = (content[i].strip("\n")).split(", ")
-        if line[0] in mechs_dict.keys():
-            mechs_dict[line[0]].append(line[1])
+        line = (content[i].strip("\n")).split("; ")
+        if line[1] in mechs_dict.keys():
+            mechs_dict[line[1]].update({line[2] : line[0]})
         else:
-            mechs_dict[line[0]] = [line[1]]
+            mechs_dict[line[1]] = {line[2] : line[0]}
 
     f.close()
-    #print(mechs_dict)
     return mechs_dict
 
-def read_mech_data(variant, model):
+
+def read_mech_data(line_number, variant, model):
     # can be improved according to the idea on the line 6
     # should I rewrite it as a dictionary instead of the list? hm...
-
-    mech_list = []
+    mech_list = {}
 
     file_path = os.path.join("data", "mech_data.csv")
     f = open(file_path, "r")
     content = f.readlines()
+    if int(line_number) >= len(content):
+        raise Exception(f"{line_number} line doesn't exist in DB")
 
-    found = False
-    for i in range(len(content)):
-        if i == 0:
-            continue #skiping the first line
-        line = (content[i].strip("\n")).split(", ")
-        if variant == line[0] and model == line[1]:
-            print("Mech is found!")
-            found = True
-            mech_list = line
-            break
+    titles = (content[0].strip("\n")).split("; ")
+    mech = (content[int(line_number)].strip("\n")).split("; ")
+
+    if mech[1] != variant or mech[2] != model:
+        raise Exception(f"Mech is not found in the DB on {line_number} line!")
     
-    if not found:
-        raise Exception("Mech is not found in the DB!")
+    for i in range(len(titles)):
+            if i > 5:
+                mech_list[titles[i]] = ast.literal_eval(mech[i])
+            else:
+                mech_list[titles[i]] = mech[i]
 
     f.close()
-    #print(mech_list)
     return mech_list
