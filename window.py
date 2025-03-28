@@ -1,3 +1,5 @@
+import random
+
 from tkinter import Tk, Canvas, StringVar
 from tkinter import ttk
 
@@ -47,17 +49,43 @@ class Interface():
         self._frame_2 = ttk.Frame(self._root, borderwidth=5, relief="ridge", width=300, height=200)
         self._frame_2.grid(column=0, row=2, columnspan=3, rowspan=2)
         
-        self._button_3 = ttk.Button(self._frame_2, text="okay", command=self.do_stuff)
+        self._button_3 = ttk.Button(self._frame_2, text="Do 5 damage", command=self.do_5_damage)
         self._button_3.place(x=10, y=10)
-        self._button_4 = ttk.Button(self._frame_2, text="not okay", command=self.do_bad_stuff)
+        self._button_4 = ttk.Button(self._frame_2, text="Do 20 damage", command=self.do_20_damage)
         self._button_4.place(x=10, y=50)
 
 
-    def do_stuff(self):
-        self._mech["CT"].damage(5)
+    def do_5_damage(self):
+        part = self.get_random_part()
+        self._mech[part].damage(5)
 
-    def do_bad_stuff(self):
-        self._mech["CT"].damage(20)
+    def do_20_damage(self):
+        part = self.get_random_part()
+        self._mech[part].damage(20)
+
+    def get_random_part(self):
+        value = random.randint(1,6) + random.randint(1,6)
+        part = "H"
+        if value == 2 or value == 7:
+            part = "CT"
+        elif value == 3 or value == 4:
+            part = "RA"
+        elif value == 5:
+            #part = "RL"
+            part = "RA"
+        elif value == 6:
+            part = "RT"
+        elif value == 8:
+            part = "LT"
+        elif value == 9:
+            #part = "LL"
+            part = "LA"
+        elif value == 10 or value == 11:
+            part = "LA"
+        else:
+            part = "H"
+        return part
+
 
 
     def choose_mech_variant(self):
@@ -82,11 +110,11 @@ class Interface():
         self.initiate_the_rest_of_the_grid()
         self._frame["height"] = 100
         self._mech_label["text"] = self._mech_data["Variant"] + " - " + self._mech_data["Model"]
-        self.initialize_the_mech()
+        self.initialize_the_mech() 
 
 
     def initialize_the_mech(self):
-        self._mech = initialize_mech(self, self._mech_data)
+        self._mech = initialize_mech(self, self._mech_data, 300, 300)     # (300, 300) - center of the Canvas
     
         
 
