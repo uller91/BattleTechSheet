@@ -20,7 +20,7 @@ class Interface():
 
         # initiating the original window with the mech select
         self._frame = ttk.Frame(self._root, borderwidth=5, relief="ridge", width=300, height=200)
-        self._frame.grid(column=0, row=0, columnspan=3, rowspan=2)
+        self._frame.grid(column=0, row=0, columnspan=3, rowspan=2, sticky="NW")
 
         self.mech_variant = StringVar() #self is needed to .current to work. Otherwise it will be garbage collected and the combobox will start empty
         self.mechs_variants = list(self._mech_list.keys())
@@ -47,7 +47,7 @@ class Interface():
         self._canvas.grid(column=3, row=0, columnspan=1, rowspan=4)
 
         self._frame_2 = ttk.Frame(self._root, borderwidth=5, relief="ridge", width=300, height=200)
-        self._frame_2.grid(column=0, row=2, columnspan=3, rowspan=2)
+        self._frame_2.grid(column=0, row=2, columnspan=3, rowspan=2, sticky="SW")
         
         self._button_3 = ttk.Button(self._frame_2, text="Do 5 damage", command=self.do_5_damage)
         self._button_3.place(x=10, y=10)
@@ -71,15 +71,13 @@ class Interface():
         elif value == 3 or value == 4:
             part = "RA"
         elif value == 5:
-            #part = "RL"
-            part = "RA"
+            part = "RL"
         elif value == 6:
             part = "RT"
         elif value == 8:
             part = "LT"
         elif value == 9:
-            #part = "LL"
-            part = "LA"
+            part = "LL"
         elif value == 10 or value == 11:
             part = "LA"
         else:
@@ -114,7 +112,7 @@ class Interface():
 
 
     def initialize_the_mech(self):
-        self._mech = initialize_mech(self, self._mech_data, 300, 300)     # (300, 300) - center of the Canvas
+        self._mech = initialize_mech(self, self._mech_data, 300, 400)     # (300, 300) - center of the Canvas
     
         
 
@@ -125,6 +123,7 @@ class Window():
         self._root.title(title)
         self._root.protocol("WM_DELETE_WINDOW", self.close)
         self._mech = None
+        self._root.geometry(f'{width}x{height}+100+100') #window geometry
         
     def close(self):
         print("The program is closed.")

@@ -3,41 +3,44 @@ from tkinter import ttk
 
 def initialize_mech(interface, data, x0, y0):
     mech = {}
-    keys = ["HI", "H", "CTI", "CT", "LTI", "LT", "RTI", "RT", "LAI", "LA", "RAI", "RA"]
+    keys = ["HI", "H", "CTI", "CT", "LTI", "LT", "RTI", "RT", "LAI", "LA", "RAI", "RA", "LLI", "LL", "RLI", "RL"]
 
-    h_i = Head_Internal(interface, Point(x0,y0/4), data["Internal"]["H"])
+    h_i = Mech(interface, keys[0], Point(x0,y0-225), data["Internal"]["H"], [0,0, 1,0, 1,2, 0,2], None, [40, 30], [0,2,3,5], inner = True)
     mech[keys[0]] = h_i
-    h = Head(interface, Point(x0,y0/4), data["Armor"]["H"], h_i)
+    h = Mech(interface, keys[1], Point(x0,y0-225), data["Armor"]["H"], [0,0, 1,0, 1,2, 0,2], h_i, [40, 30], [0,2,3,5], off_y = -1.8, fill_color="", outline_color="green")
     mech[keys[1]] = h
-    c_t_i = Center_Torso_Internal(interface, Point(x0-5,y0/2-10), data["Internal"]["C"])
+    c_t_i = Mech(interface, keys[2], Point(x0-5,y0-160), data["Internal"]["C"], [0,0, 2,0, 2,2, 3,2, 3,5, 2,5, 2,7, 0,7, 0,5, -1,5, -1,2, 0,2], None, [25, 20], [0,2,1,13], inner = True)
     mech[keys[2]] = c_t_i
-    c_t = Center_Torso(interface, Point(x0-5,y0/2-10), data["Armor"]["C"], c_t_i)
+    c_t = Mech(interface, keys[3], Point(x0-5,y0-160), data["Armor"]["C"], [0,0, 2,0, 2,2, 3,2, 3,5, 2,5, 2,7, 0,7, 0,5, -1,5, -1,2, 0,2], c_t_i, [25, 20], [0,2,1,13], off_y = 4.8, fill_color="", outline_color="green")
     mech[keys[3]] = c_t
 
-    l_t_i = Left_Torso_Internal(interface, Point(x0-60,y0/2-10), data["Internal"]["T"], c_t)
+    l_t_i = Mech(interface, keys[4], Point(x0-48,y0-160), data["Internal"]["T"], [-1,0, 1.5,0, 1.5,1, 0.5,1, 0.5,2, -1,2], c_t, [25, 35], [0,6,1,9], inner = True)
     mech[keys[4]] = l_t_i
-    l_t = Left_Torso(interface, Point(x0-60,y0/2-10), data["Armor"]["T"], l_t_i)
+    l_t = Mech(interface, keys[5], Point(x0-48,y0-160), data["Armor"]["T"], [-1,0, 1.5,0, 1.5,1, 0.5,1, 0.5,2, -1,2], l_t_i, [25, 35], [0,6,1,9], off_y = -1.7, fill_color="", outline_color="green")
     mech[keys[5]] = l_t
-    r_t_i = Right_Torso_Internal(interface, Point(x0+75,y0/2-10), data["Internal"]["T"], c_t)
+    r_t_i = Mech(interface, keys[6], Point(x0+75,y0-160), data["Internal"]["T"], [-1,0, 1.5,0, 1.5,2, 0,2, 0,1, -1,1], c_t, [25, 35], [6,4,3,5], inner = True)
     mech[keys[6]] = r_t_i
-    r_t = Right_Torso(interface, Point(x0+75,y0/2-10), data["Armor"]["T"], r_t_i)
+    r_t = Mech(interface, keys[7], Point(x0+75,y0-160), data["Armor"]["T"], [-1,0, 1.5,0, 1.5,2, 0,2, 0,1, -1,1], r_t_i, [25, 35], [6,4,3,5], off_y = -1.7, fill_color="", outline_color="green")
     mech[keys[7]] = r_t
 
-    l_a_i = Left_Arm_Internal(interface, Point(x0-115,y0/2-10), data["Internal"]["A"], l_t)
+    l_a_i = Mech(interface, keys[8], Point(x0-103,y0-160), data["Internal"]["A"], [0,0, 1,0, 1,2, 0,3, 0,4, 1,4, 1,5, -1,5, -1,1], l_t, [25, 25], [0,0,3,7], inner = True)
     mech[keys[8]] = l_a_i
-    l_a = Left_Arm(interface, Point(x0-115,y0/2-10), data["Armor"]["A"], l_a_i)
+    l_a = Mech(interface, keys[9], Point(x0-103,y0-160), data["Armor"]["A"], [0,0, 1,0, 1,2, 0,3, 0,4, 1,4, 1,5, -1,5, -1,1], l_a_i, [25, 25], [0,0,3,7], off_x = -1, off_y = -1.7, fill_color="", outline_color="green")
     mech[keys[9]] = l_a
-    r_a_i = Right_Arm_Internal(interface, Point(x0+155,y0/2-10), data["Internal"]["A"], r_t)
+    r_a_i = Mech(interface, keys[10], Point(x0+143,y0-160), data["Internal"]["A"], [0,0, -1,0, -1,2, 0,3, 0,4, -1,4, -1,5, 1,5, 1,1], r_t, [25, 25], [0,0,3,7], inner = True)
     mech[keys[10]] = r_a_i
-    r_a = Right_Arm(interface, Point(x0+155,y0/2-10), data["Armor"]["A"], r_a_i)
+    r_a = Mech(interface, keys[11], Point(x0+143,y0-160), data["Armor"]["A"], [0,0, -1,0, -1,2, 0,3, 0,4, -1,4, -1,5, 1,5, 1,1], r_a_i, [25, 25], [0,0,3,7], off_x = 1, off_y = -1.7, fill_color="", outline_color="green")
     mech[keys[11]] = r_a
 
-    
-    #TO DO:
-    #LL and RL (dont forget to chage random)
-    #do one draw fucntion for everything: pass coordinates, scale, text move constants and part name for the log
-    #colapse all the classe into one "part" class
-    
+    l_l_i = Mech(interface, keys[12], Point(x0-10,y0-55), data["Internal"]["L"], [0,0, 0,7, 1,8, 1,9, -4,9, -4,8, -3,7, -3,1, -2,0], l_t, [15, 15], [2,14,3,15], inner = True)
+    mech[keys[12]] = l_l_i
+    l_l = Mech(interface, keys[13], Point(x0-10,y0-55), data["Armor"]["L"], [0,0, 0,7, 1,8, 1,9, -4,9, -4,8, -3,7, -3,1, -2,0], l_l_i, [15, 15], [2,14,3,15], off_x = -2.3, fill_color="", outline_color="green")
+    mech[keys[13]] = l_l
+    r_l_i = Mech(interface, keys[14], Point(x0+50,y0-55), data["Internal"]["L"], [0,0, 0,7, -1,8, -1,9, 4,9, 4,8, 3,7, 3,1, 2,0], r_t, [15, 15], [2,14,3,15], inner = True)
+    mech[keys[14]] = r_l_i
+    r_l = Mech(interface, keys[15], Point(x0+50,y0-55), data["Armor"]["L"], [0,0, 0,7, -1,8, -1,9, 4,9, 4,8, 3,7, 3,1, 2,0], r_l_i, [15, 15], [2,14,3,15], off_x = 2.3, fill_color="", outline_color="green")
+    mech[keys[15]] = r_l
+
 
     for key in keys:
         mech[key].draw()
@@ -52,22 +55,40 @@ class Point(): #legacy code from window. Can be deleted/rewritten in the Mech cl
 
 
 class Mech():
-    def __init__(self, interface, coordinates, stat, child, fill_color = "pale green", outline_color = "red"):
+    def __init__(self, interface, name, coordinates, stat, polygon, child, scale, text, off_x = 0, off_y = 0, inner = False, fill_color = "pale green", outline_color = "red"):
         self._i = interface
+        self._name = name
         self._x = coordinates.x
         self._y = coordinates.y
         self._stat = int(stat)
+        self._polygon = polygon
         self._damage = 0
         self._destroyed = False
-        self._polygon = None
+        self._inner = inner
         self._fill = fill_color
         self._outline = outline_color
         self._child = child
+        self._scale_x = scale[0]
+        self._scale_y = scale[1]
+        self._text_centre = text
+        self._off_x = off_x
+        self._off_y = off_y
 
-        #self.draw()
 
     def draw(self):
-        pass
+        used_coordinates = []
+        for i in range(len(self._polygon)):
+            if i%2 == 0:
+                used_coordinates.append(self._polygon[i]*self._scale_x + self._x)
+            else:
+                used_coordinates.append(self._polygon[i]*self._scale_y + self._y)
+        center_x = (used_coordinates[self._text_centre[0]] + used_coordinates[self._text_centre[1]])/2 + self._off_x*self._scale_x
+        center_y = (used_coordinates[self._text_centre[2]] + used_coordinates[self._text_centre[3]])/2 + self._off_y*self._scale_y
+        self._polygon = self._i._canvas.create_polygon(used_coordinates, fill=self._fill, outline=self._outline, width = 3)
+        if self._inner == False:
+            self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}", font=("arial",9, "bold"))
+        else:
+            self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}", font=("arial",7, "normal"))
 
     def damage(self, damage):
         self._damage += damage
@@ -76,7 +97,10 @@ class Mech():
             #self._i._canvas.itemconfig(self._polygon, outline="green", width = 3)
             pass
         else:
-            self._destroyed = True
+            if self._destroyed == False:
+                print(f"{self._name} is destroyed!")
+                self._destroyed = True
+
             if self._i._canvas.itemcget(self._polygon,'fill') == "":
                 #self._i._canvas.itemconfig(self._polygon, outline="red", width = 3)
                 self._i._canvas.delete(self._polygon)
@@ -87,256 +111,8 @@ class Mech():
             if self._child == None:
                 print("Mech is destroyed!")
             elif self._child != None:
-                self._i._canvas.itemconfig(self._text, font=("arial",9, "normal"))
+                self._i._canvas.itemconfig(self._text, font=("arial",7, "normal"))
                 self._child._i._canvas.itemconfig(self._child._text, font=("arial",9, "bold"))
                 self._child.damage(damage_spill)
         
         self._i._canvas.itemconfig(self._text, text=f"{self._damage}\n/\n{self._stat}")
-
-
-class Head(Mech):
-    def __init__(self, interface, coordinates, stat, child):
-        super().__init__(interface, coordinates, stat, child)
-
-    def draw(self):
-        scale_x = 40
-        scale_y = 30
-        coordinates = [0,0, 1,0, 1,2, 0,2]
-        used_coordinates = []
-        for i in range(len(coordinates)):
-            if i%2 == 0:
-                used_coordinates.append(coordinates[i]*scale_x + self._x)
-            else:
-                used_coordinates.append(coordinates[i]*scale_y + self._y)
-        #print(used_coordinates)
-        center_x = (used_coordinates[0] + used_coordinates[2])/2
-        center_y = (used_coordinates[3] + used_coordinates[5])/2 - 1.8*scale_y
-        self._polygon = self._i._canvas.create_polygon(used_coordinates, fill="", outline="green", width = 3)
-        self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}", font=("arial",9, "bold"))
-
-class Head_Internal(Head):
-    def __init__(self, interface, coordinates, stat, child = None):
-        super().__init__(interface, coordinates, stat, child)
-
-    def draw(self):
-        scale_x = 40
-        scale_y = 30
-        coordinates = [0,0, 1,0, 1,2, 0,2]
-        used_coordinates = []
-        for i in range(len(coordinates)):
-            if i%2 == 0:
-                used_coordinates.append(coordinates[i]*scale_x + self._x)
-            else:
-                used_coordinates.append(coordinates[i]*scale_y + self._y)
-        #print(used_coordinates)
-        center_x = (used_coordinates[0] + used_coordinates[2])/2
-        center_y = (used_coordinates[3] + used_coordinates[5])/2
-        self._polygon = self._i._canvas.create_polygon(used_coordinates, fill=self._fill, outline=self._outline, width = 3)
-        self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}", font=("arial",9))
-
-
-class Center_Torso(Mech):
-    def __init__(self, interface, coordinates, stat, child):
-        super().__init__(interface, coordinates, stat, child)
-
-    def draw(self):
-        scale_x = 25
-        scale_y = 20
-        coordinates = [0,0, 2,0, 2,2, 3,2, 3,5, 2,5, 2,7, 0,7, 0,5, -1,5, -1,2, 0,2]
-        used_coordinates = []
-        for i in range(len(coordinates)):
-            if i%2 == 0:
-                used_coordinates.append(coordinates[i]*scale_x + self._x)
-            else:
-                used_coordinates.append(coordinates[i]*scale_y + self._y)
-        #print(used_coordinates)
-        center_x = (used_coordinates[0] + used_coordinates[2])/2
-        center_y = (used_coordinates[1] + used_coordinates[13])/2 + 4.8*scale_y
-        self._polygon = self._i._canvas.create_polygon(used_coordinates, fill="", outline="green", width = 3)
-        self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}", font=("arial",9, "bold"))
-
-class Center_Torso_Internal(Center_Torso):
-    def __init__(self, interface, coordinates, stat, child = None):
-        super().__init__(interface, coordinates, stat, child)
-
-    def draw(self):
-        scale_x = 25
-        scale_y = 20
-
-        coordinates = [0,0, 2,0, 2,2, 3,2, 3,5, 2,5, 2,7, 0,7, 0,5, -1,5, -1,2, 0,2]
-        used_coordinates = []
-        for i in range(len(coordinates)):
-            if i%2 == 0:
-                used_coordinates.append(coordinates[i]*scale_x + self._x)
-            else:
-                used_coordinates.append(coordinates[i]*scale_y + self._y)
-        #print(used_coordinates)
-        center_x = (used_coordinates[0] + used_coordinates[2])/2
-        center_y = (used_coordinates[1] + used_coordinates[13])/2
-        self._polygon = self._i._canvas.create_polygon(used_coordinates, fill=self._fill, outline=self._outline, width = 3)
-        self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}", font=("arial",9))
-
-
-class Left_Torso(Mech):
-    def __init__(self, interface, coordinates, stat, child):
-        super().__init__(interface, coordinates, stat, child)
-
-    def draw(self):
-        scale_x = 25
-        scale_y = 35
-
-        coordinates = [-1,0, 2,0, 2,1, 1,1, 1,2, -1,2]
-        used_coordinates = []
-        for i in range(len(coordinates)):
-            if i%2 == 0:
-                used_coordinates.append(coordinates[i]*scale_x + self._x)
-            else:
-                used_coordinates.append(coordinates[i]*scale_y + self._y)
-        #print(used_coordinates)
-        center_x = (used_coordinates[0] + used_coordinates[6])/2
-        center_y = (used_coordinates[1] + used_coordinates[7])/2 - 1.2*scale_y
-        self._polygon = self._i._canvas.create_polygon(used_coordinates, fill="", outline="green", width = 3)
-        self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}", font=("arial",9, "bold"))
-
-class Left_Torso_Internal(Left_Torso):
-    def __init__(self, interface, coordinates, stat, child):
-        super().__init__(interface, coordinates, stat, child)
-
-    def draw(self):
-        scale_x = 25
-        scale_y = 35
-        coordinates = [-1,0, 2,0, 2,1, 1,1, 1,2, -1,2]
-        used_coordinates = []
-        for i in range(len(coordinates)):
-            if i%2 == 0:
-                used_coordinates.append(coordinates[i]*scale_x + self._x)
-            else:
-                used_coordinates.append(coordinates[i]*scale_y + self._y)
-        #print(used_coordinates)
-        center_x = (used_coordinates[0] + used_coordinates[6])/2
-        center_y = (used_coordinates[1] + used_coordinates[9])/2
-        self._polygon = self._i._canvas.create_polygon(used_coordinates, fill=self._fill, outline=self._outline, width = 3)
-        self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}", font=("arial",9))\
-        
-
-class Right_Torso(Mech):
-    def __init__(self, interface, coordinates, stat, child):
-        super().__init__(interface, coordinates, stat, child)
-
-    def draw(self):
-        scale_x = 25
-        scale_y = 35
-        coordinates = [-1,0, 2,0, 2,2, 0,2, 0,1, -1,1]
-        used_coordinates = []
-        for i in range(len(coordinates)):
-            if i%2 == 0:
-                used_coordinates.append(coordinates[i]*scale_x + self._x)
-            else:
-                used_coordinates.append(coordinates[i]*scale_y + self._y)
-        #print(used_coordinates)
-        center_x = (used_coordinates[6] + used_coordinates[4])/2
-        center_y = (used_coordinates[3] + used_coordinates[5])/2 - 1.7*scale_y
-        self._polygon = self._i._canvas.create_polygon(used_coordinates, fill="", outline="green", width = 3)
-        self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}", font=("arial",9, "bold"))
-
-class Right_Torso_Internal(Right_Torso):
-    def __init__(self, interface, coordinates, stat, child):
-        super().__init__(interface, coordinates, stat, child)
-
-    def draw(self):
-        scale_x = 25
-        scale_y = 35
-        coordinates = [-1,0, 2,0, 2,2, 0,2, 0,1, -1,1]
-        used_coordinates = []
-        for i in range(len(coordinates)):
-            if i%2 == 0:
-                used_coordinates.append(coordinates[i]*scale_x + self._x)
-            else:
-                used_coordinates.append(coordinates[i]*scale_y + self._y)
-        #print(used_coordinates)
-        center_x = (used_coordinates[6] + used_coordinates[4])/2
-        center_y = (used_coordinates[3] + used_coordinates[5])/2
-        self._polygon = self._i._canvas.create_polygon(used_coordinates, fill=self._fill, outline=self._outline, width = 3)
-        self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}", font=("arial",9))
-
-
-class Left_Arm(Mech):
-    def __init__(self, interface, coordinates, stat, child):
-        super().__init__(interface, coordinates, stat, child)
-
-    def draw(self):
-        scale_x = 25
-        scale_y = 30
-        coordinates = [0,0, 1,0, 1,2, 0,3, 0,4, 1,4, 1,5, -1,5, -1,1]
-        used_coordinates = []
-        for i in range(len(coordinates)):
-            if i%2 == 0:
-                used_coordinates.append(coordinates[i]*scale_x + self._x)
-            else:
-                used_coordinates.append(coordinates[i]*scale_y + self._y)
-        #print(used_coordinates)
-        center_x = (used_coordinates[0] + used_coordinates[0])/2 - 1*scale_x
-        center_y = (used_coordinates[3] + used_coordinates[7])/2 - 1.7*scale_y
-        self._polygon = self._i._canvas.create_polygon(used_coordinates, fill="", outline="green", width = 3)
-        self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}", font=("arial",9, "bold"))
-
-class Left_Arm_Internal(Left_Arm):
-    def __init__(self, interface, coordinates, stat, child):
-        super().__init__(interface, coordinates, stat, child)
-
-    def draw(self):
-        scale_x = 25
-        scale_y = 30
-        coordinates = [0,0, 1,0, 1,2, 0,3, 0,4, 1,4, 1,5, -1,5, -1,1]
-        used_coordinates = []
-        for i in range(len(coordinates)):
-            if i%2 == 0:
-                used_coordinates.append(coordinates[i]*scale_x + self._x)
-            else:
-                used_coordinates.append(coordinates[i]*scale_y + self._y)
-        #print(used_coordinates)
-        center_x = (used_coordinates[0] + used_coordinates[0])/2
-        center_y = (used_coordinates[3] + used_coordinates[7])/2
-        self._polygon = self._i._canvas.create_polygon(used_coordinates, fill=self._fill, outline=self._outline, width = 3)
-        self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}", font=("arial",9))
-
-
-class Right_Arm(Mech):
-    def __init__(self, interface, coordinates, stat, child):
-        super().__init__(interface, coordinates, stat, child)
-
-    def draw(self):
-        scale_x = 25
-        scale_y = 30
-        coordinates = [0,0, -1,0, -1,2, 0,3, 0,4, -1,4, -1,5, 1,5, 1,1]
-        used_coordinates = []
-        for i in range(len(coordinates)):
-            if i%2 == 0:
-                used_coordinates.append(coordinates[i]*scale_x + self._x)
-            else:
-                used_coordinates.append(coordinates[i]*scale_y + self._y)
-        #print(used_coordinates)
-        center_x = (used_coordinates[0] + used_coordinates[0])/2 + 1*scale_x
-        center_y = (used_coordinates[3] + used_coordinates[7])/2 - 1.7*scale_y
-        self._polygon = self._i._canvas.create_polygon(used_coordinates, fill="", outline="green", width = 3)
-        self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}", font=("arial",9, "bold"))
-
-class Right_Arm_Internal(Right_Arm):
-    def __init__(self, interface, coordinates, stat, child):
-        super().__init__(interface, coordinates, stat, child)
-
-    def draw(self):
-        scale_x = 25
-        scale_y = 30
-        coordinates = [0,0, -1,0, -1,2, 0,3, 0,4, -1,4, -1,5, 1,5, 1,1]
-        used_coordinates = []
-        for i in range(len(coordinates)):
-            if i%2 == 0:
-                used_coordinates.append(coordinates[i]*scale_x + self._x)
-            else:
-                used_coordinates.append(coordinates[i]*scale_y + self._y)
-        #print(used_coordinates)
-        center_x = (used_coordinates[0] + used_coordinates[0])/2
-        center_y = (used_coordinates[3] + used_coordinates[7])/2
-        self._polygon = self._i._canvas.create_polygon(used_coordinates, fill=self._fill, outline=self._outline, width = 3)
-        self._text = self._i._canvas.create_text(center_x,center_y, anchor="center", justify="center", text=f"{self._damage}\n/\n{self._stat}", font=("arial",9))
