@@ -25,8 +25,6 @@ def read_mech_list():
 
 
 def read_mech_data(line_number, variant, model):
-    # can be improved according to the idea on the line 6
-    # should I rewrite it as a dictionary instead of the list? hm...
     mech_list = {}
 
     file_path = os.path.join("data", "mech_data.csv")
@@ -41,9 +39,9 @@ def read_mech_data(line_number, variant, model):
     if mech[1] != variant or mech[2] != model:
         raise Exception(f"Mech is not found in the DB on {line_number} line!")
     
-    for i in range(len(titles)):
+    for i in range(len(titles)):    #assuming all the plain text goes in the columns 0-5
             if i > 5:
-                mech_list[titles[i]] = ast.literal_eval(mech[i])
+                mech_list[titles[i]] = ast.literal_eval(mech[i])    #text to dictionary conversion
             else:
                 mech_list[titles[i]] = mech[i]
 
